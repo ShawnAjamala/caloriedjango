@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: calorie-counter
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput"
+    startCommand: "gunicorn calorie_counter_project.wsgi:application"
+    envVars:
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DATABASE_URL
+        fromDatabase:
+          name: django-db-prod
+          property: connectionString
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: PYTHON_VERSION
+        value: 3.10.13
+
+databases:
+  - name: django-db-prod
+    plan: free
+    databaseName: django_prod_db
+    user: django_user
