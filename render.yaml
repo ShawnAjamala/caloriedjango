@@ -9,16 +9,6 @@ services:
       - key: DJANGO_SECRET_KEY
         generateValue: true
       - key: DATABASE_URL
-        fromDatabase:
-          name: django-db-prod
-          property: connectionString
-      - key: WEB_CONCURRENCY
-        value: 4
+        value: postgresql://calorie_project_user:TBSkdh2HNVTgiEF4nd1pguctFSkThtEO@dpg-d8a2angg4nts73d3rveg-a/calorie_project
       - key: PYTHON_VERSION
         value: 3.10.13
-
-databases:
-  - name: django-db-prod
-    plan: free
-    databaseName: django_prod_db
-    user: django_user
