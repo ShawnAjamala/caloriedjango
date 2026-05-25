@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure--z_az^q$#g8v7jjvi6lfbvl-yzrx+(!r_k#1bc0gl95xnmi+_l')
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+DEBUG = 'True'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1').split(',')
 
 # Application definition
@@ -50,31 +50,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'calorie_counter_project.wsgi.application'
 
-# Database configuration
-if os.environ.get('DATABASE_URL'):
-    # On Render – use the database URL provided by the blueprint
-    DATABASES = {
-        'default': dj_database_url.config(
-            default=os.environ['DATABASE_URL'],
-            conn_max_age=600,
-            conn_health_checks=True,
-        )
-    }
-else:
-    # Local development – your own PostgreSQL (pgAdmin)
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.postgresql',
-            'NAME': 'calorie_db',
-            'USER': 'postgres',
-            'PASSWORD': '123456',
-            'HOST': 'localhost',
-            'PORT': '5432',
-        }
-    }
+# Database – use environment variable (RECOMMENDED)
+# If you must hardcode, keep as is but be aware of security risk.
+# Move this to Render environment variable instead.
+DATABASES = {
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL', 'postgresql://calorie_db_ln4l_user:jQCHsztfGHVlUNPRBcI7kVFEGX6DtimW@dpg-d8a54dv7f7vs73cq5ed0-a.oregon-postgres.render.com/calorie_db_ln4l'))
+}
 
-# Password validation (keep as is)
-AUTH_PASSWORD_VALIDATORS = [...]   # unchanged
+# Password validation – restore default validators
+AUTH_PASSWORD_VALIDATORS = [
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
+]
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
