@@ -6,7 +6,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure--z_az^q$#g8v7jjvi6lfbvl-yzrx+(!r_k#1bc0gl95xnmi+_l')
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG ='True'
 ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', 'localhost,127.0.0.1,caloriedjango.onrender.com').split(',')
 
 CSRF_TRUSTED_ORIGINS = [
